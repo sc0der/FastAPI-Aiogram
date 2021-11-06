@@ -8,24 +8,6 @@ from . import models, schemas
 
 
 #  crud city
-def get_city_byID(db:Session, city_uid):
-    return db.query(models.City).filter(models.City.uid == city_uid).first()
-
-def get_rubrica_byID(db:Session, rubric_uid):
-    return db.query(models.Rubric).filter(models.Rubric.uid == rubric_uid).first()
-
-
-def get_cities(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.City).offset(skip).limit(limit).all()
-
-def create_city(db: Session, city):
-    if get_city_byID(db, city['uid']):
-        return "User is alredy added"
-    db_city = models.City(name=city['name'], slug=city['slug'], uid=city['uid'])
-    db.add(db_city)
-    db.commit()
-    db.refresh(db_city)
-    return db_city
 
 # crud rubrics
 def create_rubrica(db: Session, rubrica):
@@ -48,12 +30,28 @@ def create_user_item(db: Session, item: schemas.ItemCreate, user_id: int):
     return db_item
 
 
-class RubricaCrud:
+class CityCrud:
     def __init__(self, db:Session):
         self.db = db
 
-    def get_user(self, user_id: int):
-        return self.db.query(models.User).filter(models.User.id == user_id).first()
+    def get_city_byID(self, city_uid):
+        return self.db.query(models.City).filter(models.City.uid == city_uid).first()
+        
+    def get_cities(self, skip: int = 0, limit: int = 100):
+        return self.db.query(models.City).offset(skip).limit(limit).all()
+
+    def create_city(self, city):
+        if self.get_city_byID(db, city['uid']):
+            return "City is alredy added"
+        db_city = models.City(name=city['name'], slug=city['slug'], uid=city['uid'])
+        self.db.add(db_city)
+        self.db.commit()
+        self.db.refresh(db_city)
+        return db_city
+
+class RubricaCrud:
+    def __init__(self, db:Session):
+        self.db = db
 
     def get_rubrica_by_uid(self, rubrica_id: int):
         return self.db.query(models.Rubrica).filter(models.Rubrica.uid == rubrica_id).first()
