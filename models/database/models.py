@@ -12,13 +12,12 @@ class User(Base):
     phone: Column(String, unique=True, index=True)
     # items = relationship("Item", back_populates="owner")
 
-
 class Rubric(Base):
     __tablename__ = "rubrics"
     id = Column(Integer, primary_key=True, index=True)
-    uid: Column(Integer, unique=True)
-    name: Column(String)
-    slug: Column(String, index=True)
+    uid= Column(Integer)
+    name= Column(String)
+    slug= Column(String, index=True)
 
 class Item(Base):
     __tablename__ = "items"
