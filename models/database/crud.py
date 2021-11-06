@@ -41,7 +41,7 @@ class CityCrud:
         return self.db.query(models.City).offset(skip).limit(limit).all()
 
     def create_city(self, city):
-        if self.get_city_byID(db, city['uid']):
+        if self.get_city_byID(city['uid']):
             return "City is alredy added"
         db_city = models.City(name=city['name'], slug=city['slug'], uid=city['uid'])
         self.db.add(db_city)
