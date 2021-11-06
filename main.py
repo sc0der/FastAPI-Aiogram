@@ -49,7 +49,7 @@ async def fetchSecondaryRubrics(db):
         await fetcher.fetch_all()
         return "200"
 
-@app.get("/fetch_cities")
+@app.get("/fetch/cities")
 def getCity(db: Session = Depends(get_db)):
     asyncio.run(fetchCities(db))
     return {"Result": "OK"}

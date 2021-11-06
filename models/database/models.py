@@ -39,5 +39,7 @@ class City(Base):
 class ItemImage(Base):
     __tablename__ = "images"
     id = Column(Integer, primary_key=True)
+    uid = Column(Integer, unique=True)
+    item_id = Column(Integer)
     url = Column(String)
     orig = Column(String)

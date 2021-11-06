@@ -60,11 +60,33 @@ class UserCrud:
         return self.db.query(models.User).offset(skip).limit(limit).all()
 
     def create(self, user):
-        # if self.get_by_Id(rubrica['uid']):
-        #     return "Rubric is alredy added"
         db_user = models.User(
             full_name=user['full_name'], uid=user['uid'], phone=user['phone'])
         self.db.add(db_user)
         self.db.commit()
         self.db.refresh(db_user)
         return db_user
+
+
+class ItemCrud:
+    def __init__(self, db: Session):
+        self.db = db
+
+    def get_by_Id(self, item_id: int):
+        return self.db.query(models.Item).filter(models.Item.uid == item_id).first()
+
+    def get_list(self, skip: int = 0, limit: int = 100):
+        return self.db.query(models.Item).offset(skip).limit(limit).all()
+
+    def getImages(self, item_id):
+        return self.db.query(models.ItemImage).filter(models.ItemImage.item_id == item_id)
+
+    def create(self, item):
+        if self.get_by_Id(item['uid']):
+            return "item is alredy added"
+        db_item = models.Item(
+            name=item['name'], slug=item['slug'], uid=item['uid'])
+        self.db.add(db_item)
+        self.db.commit()
+        self.db.refresh(db_item)
+        return db_item

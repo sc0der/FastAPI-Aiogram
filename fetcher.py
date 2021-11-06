@@ -6,6 +6,7 @@ from models.database.crud import CityCrud, RubricaCrud
 from sqlalchemy.orm import Session
 from settings import *
 
+
 class FetchCities:
     def __init__(self, session, dbSession):
         self.session = session
@@ -21,7 +22,7 @@ class FetchCities:
                 response.raise_for_status()
             response = await response.json()
             [self.cityCrud.create(city={
-                              "uid": city['id'], "name": city['name'], "slug": city['slug']}) for city in response["results"]]
+                "uid": city['id'], "name": city['name'], "slug": city['slug']}) for city in response["results"]]
             return "OK"
 
     async def fetch_all(self, urls):
@@ -32,7 +33,9 @@ class FetchCities:
         results = await asyncio.gather(*tasks)
         return results
 
+
 class FetchRubrics:
+
     def __init__(self, session, dbSession):
         self.session = session
         self.db_session = dbSession
@@ -50,7 +53,7 @@ class FetchRubrics:
             response = await response.json()
             print(response)
             [self.rubricCrud.create(rubrica={
-                              "uid": rubrica['id'], "name": rubrica['name'], "slug": rubrica['slug']}) for rubrica in response]
+                "uid": rubrica['id'], "name": rubrica['name'], "slug": rubrica['slug']}) for rubrica in response]
             return "OK"
 
     async def fetch_all(self):
@@ -60,3 +63,12 @@ class FetchRubrics:
             tasks.append(task)
         results = await asyncio.gather(*tasks)
         return results
+
+
+class FetchItems:
+
+    def __init__(self, session, dbSession):
+        self.session = session
+        self.db_session = dbSession
+        self.rubricCrud = RubricaCrud(self.db_session)
+        self.urls = [base_url+"rubrics"]
