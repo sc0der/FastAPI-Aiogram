@@ -49,6 +49,12 @@ async def fetchSecondaryRubrics(db):
         await fetcher.fetch_all()
         return "200"
 
+async def fetchItems(db):
+    async with aiohttp.ClientSession() as session:
+        fetcher = FetchItems(session, db)
+        await fetcher.fetch_all()
+        return "200"
+
 @app.get("/fetch/cities")
 def getCity(db: Session = Depends(get_db)):
     asyncio.run(fetchCities(db))
@@ -62,4 +68,9 @@ def getCity(db: Session = Depends(get_db)):
 @app.get("/fetch/rubrics/secondary")
 def getCity(db: Session = Depends(get_db)):
     asyncio.run(fetchSecondaryRubrics(db))
+    return {"Result": "OK"}
+
+@app.get("/fetch/items")
+def getCity(db: Session = Depends(get_db)):
+    asyncio.run(fetchItems(db))
     return {"Result": "OK"}

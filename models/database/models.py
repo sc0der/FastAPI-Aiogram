@@ -7,10 +7,9 @@ from .database import Base
 class User(Base):
     __tablename__ = "users"
     id = Column(Integer, primary_key=True, index=True)
-    uid: Column(Integer, unique=True)
-    full_name: Column(String)
-    phone: Column(String, unique=True, index=True)
-    # items = relationship("Item", back_populates="owner")
+    uid = Column(Integer, unique=True)
+    name = Column(String, index=True)
+    phone = Column(String, unique=True, index=True)
 
 class Rubric(Base):
     __tablename__ = "rubrics"
@@ -22,12 +21,17 @@ class Rubric(Base):
 class Item(Base):
     __tablename__ = "items"
     id = Column(Integer, primary_key=True, index=True)
-    uid: Column(Integer, unique=True)
+    uid = Column(Integer, unique=True)
     title = Column(String, index=True)
     slug = Column(String, index=True)
     description = Column(String, index=True)
-    rubric = Column(Integer, ForeignKey("rubrics.id"))
-    # user = relationship("User", back_populates="items")
+    price_description = Column(String)
+    price = Column(String, index=True)
+    created_dt = Column(String, index=True)
+    raise_dt = Column(String, index=True)
+    city_id = Column(String, index=True)
+    rubric_id = Column(Integer)
+    user_id = Column(Integer)
 
 class City(Base):
     __tablename__ = "cities"

@@ -2,7 +2,7 @@ import requests
 import aiohttp
 import asyncio
 from models.database import crud, models, schemas
-from models.database.crud import CityCrud, RubricaCrud
+from models.database.crud import CityCrud, RubricaCrud, ItemCrud
 from sqlalchemy.orm import Session
 from settings import *
 
@@ -70,5 +70,21 @@ class FetchItems:
     def __init__(self, session, dbSession):
         self.session = session
         self.db_session = dbSession
-        self.rubricCrud = RubricaCrud(self.db_session)
-        self.urls = [base_url+"rubrics"]
+        self.itemCrud = ItemCrud(self.db_session)
+        self.urls = [base_url]
+
+    async def fetch(self, url):
+        async with self.session.get(url) as response:
+            if response.status != 200:
+                response.raise_for_status()
+            response = await response.json()
+            [self.itemCrud.create(item=item, user=item['user'], images=item['images']) for item in response["results"]]
+            return "OK"
+
+    async def fetch_all(self):
+        tasks = []
+        for url in self.urls:
+            task = asyncio.create_task(self.fetch(url))
+            tasks.append(task)
+        results = await asyncio.gather(*tasks)
+        return results

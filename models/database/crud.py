@@ -51,7 +51,7 @@ class UserCrud:
         self.db = db
 
     def get_by_Id(self, user_id: int):
-        return self.db.query(models.User).filter(models.User.id == user_id).first()
+        return self.db.query(models.User).filter(models.User.uid == user_id).first()
 
     def get_by_phone(self, phone: str):
         return self.db.query(models.User).filter(models.User.phone == phone).first()
@@ -60,8 +60,10 @@ class UserCrud:
         return self.db.query(models.User).offset(skip).limit(limit).all()
 
     def create(self, user):
+        if self.get_by_Id(user['id']):
+            return "image is alredy added"
         db_user = models.User(
-            full_name=user['full_name'], uid=user['uid'], phone=user['phone'])
+            name=user['name'], uid=user['id'], phone=user['phone'])
         self.db.add(db_user)
         self.db.commit()
         self.db.refresh(db_user)
@@ -71,6 +73,7 @@ class UserCrud:
 class ItemCrud:
     def __init__(self, db: Session):
         self.db = db
+        self.userCrud = UserCrud(self.db)
 
     def get_by_Id(self, item_id: int):
         return self.db.query(models.Item).filter(models.Item.uid == item_id).first()
@@ -85,21 +88,40 @@ class ItemCrud:
         return self.db.query(models.ItemImage).filter(models.ItemImage.uid == img_id).first()
 
     def imgCreate(self, img, item_id):
-        if self.get_img_by_id(img['uid']):
+        if self.get_img_by_id(img['id']):
             return "image is alredy added"
         db_image = models.ItemImage(
-            url=img['url'], orig=img['orig'], uid=img['uid'], item_id=item_id)
+            url=img['url'], orig=img['orig'], uid=img['id'], item_id=item_id)
         self.db.add(db_image)
         self.db.commit()
         self.db.refresh(db_image)
         return db_image
 
-    def create(self, item):
-        if self.get_by_Id(item['uid']):
+    def create(self, item, user, images: list):
+        if self.get_by_Id(item['id']):
             return "item is alredy added"
+
         db_item = models.Item(
-            name=item['name'], slug=item['slug'], uid=item['uid'])
+            slug=item['slug'], 
+            uid=item['id'], 
+            title=item['title'], 
+            description=item['description'],
+            price=item['price'],
+            price_description=item['price_description'],
+            created_dt=item['created_dt'],
+            raise_dt=item['raise_dt'],
+            user_id=item["user"]["id"],
+            rubric_id=item['rubric'], 
+            city_id=item['city']
+            )
+
         self.db.add(db_item)
         self.db.commit()
         self.db.refresh(db_item)
+        if len(images) > 0:
+            [self.imgCreate(img, item['id']) for img in images]
+
+        if user is not None:
+            self.userCrud.create(user)
+
         return db_item
