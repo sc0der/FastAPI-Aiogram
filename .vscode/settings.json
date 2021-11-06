@@ -1,0 +1,14 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "somontj",
+            "database": "somontj",
+            "username": "postgres",
+            "password": "sc0der"
+        }
+    ]
+}
