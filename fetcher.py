@@ -1,14 +1,9 @@
 import requests
 import aiohttp
 import asyncio
-import os
 from models.database import crud, models, schemas
-from dotenv import load_dotenv
 from sqlalchemy.orm import Session
-
-load_dotenv()
-
-base_url = os.environ.get("BASE_URL")
+from settings import *
 
 class FetchCities:
 
