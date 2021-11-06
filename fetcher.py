@@ -20,7 +20,7 @@ class FetchCities:
             if response.status != 200:
                 response.raise_for_status()
             response = await response.json()
-            [self.cityCrud.create_city(city={
+            [self.cityCrud.create(city={
                               "uid": city['id'], "name": city['name'], "slug": city['slug']}) for city in response["results"]]
             return "OK"
 
@@ -43,7 +43,7 @@ class FetchRubrics:
             if response.status != 200:
                 response.raise_for_status()
             response = await response.json()
-            [crud.create_city(db=self.dbSession, city={
+            [crud.create(db=self.dbSession, city={
                               "uid": city['id'], "name": city['name'], "slug": city['slug']}) for city in response["results"]]
             return "OK"
 

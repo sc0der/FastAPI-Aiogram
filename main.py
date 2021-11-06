@@ -30,7 +30,7 @@ def index(db: Session = Depends(get_db)):
 @app.get("/cities")
 def index(db: Session = Depends(get_db)):
     cityDB = CityCrud(db)
-    cities = cityDB.get_cities()
+    cities = cityDB.get_list()
     return {"msg": cities}
 
 async def fetchCities(db):
