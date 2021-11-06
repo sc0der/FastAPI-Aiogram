@@ -81,6 +81,19 @@ class ItemCrud:
     def getImages(self, item_id):
         return self.db.query(models.ItemImage).filter(models.ItemImage.item_id == item_id)
 
+    def get_img_by_id(self, img_id):
+        return self.db.query(models.ItemImage).filter(models.ItemImage.uid == img_id).first()
+
+    def imgCreate(self, img, item_id):
+        if self.get_img_by_id(img['uid']):
+            return "image is alredy added"
+        db_image = models.ItemImage(
+            url=img['url'], orig=img['orig'], uid=img['uid'], item_id=item_id)
+        self.db.add(db_image)
+        self.db.commit()
+        self.db.refresh(db_image)
+        return db_image
+
     def create(self, item):
         if self.get_by_Id(item['uid']):
             return "item is alredy added"
