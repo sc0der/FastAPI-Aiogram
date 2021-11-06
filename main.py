@@ -1,19 +1,15 @@
 from typing import List
-
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
 from fetcher import *
 from models.database import models, schemas
 from models.database.crud import CityCrud
 from models.database.database import SessionLocal, engine
-
 import aiohttp
 import asyncio
 
 models.Base.metadata.create_all(bind=engine)
-
 app = FastAPI()
-
 
 # Dependency
 def get_db():
@@ -58,7 +54,12 @@ def getCity(db: Session = Depends(get_db)):
     asyncio.run(fetchCities(db))
     return {"Result": "OK"}
 
-@app.get("/fetch_rubrics")
+@app.get("/fetch/rubrics")
+def getCity(db: Session = Depends(get_db)):
+    asyncio.run(fetchRubrics(db))
+    return {"Result": "OK"}
+
+@app.get("/fetch/rubrics/secondary")
 def getCity(db: Session = Depends(get_db)):
     asyncio.run(fetchSecondaryRubrics(db))
     return {"Result": "OK"}
