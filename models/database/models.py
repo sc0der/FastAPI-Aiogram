@@ -18,7 +18,7 @@ class Rubric(Base):
     id = Column(Integer, primary_key=True, index=True)
     uid: Column(Integer, unique=True)
     name: Column(String)
-    slug: Column(String, unique=True, index=True)
+    slug: Column(String, index=True)
 
 class Item(Base):
     __tablename__ = "items"
