@@ -18,7 +18,7 @@ async def process_start_command(message: types.Message):
 async def process_group_command(message: types.Message):
     media = [InputMediaPhoto("https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/2019-honda-civic-sedan-1558453497.jpg")]
     for photo_id in range(2):
-        media.append(InputMediaPhoto("https://auto1-homepage.prod.mp.auto1.cloud/static/optimized/orange-car-hp-right-mercedez.png"))
+        media.append(InputMediaPhoto("https://auto1-homepage.prod.mp.auto1.cloud/static/optimized/orange-car-hp-right-mercedez.png", 'ёжик и котятки'))
     await bot.send_media_group(message.from_user.id, media)
 
 @dp.message_handler(commands=['help'])
