@@ -56,4 +56,11 @@ class ItemHandler:
             users = result
         return users[0]
 
-    
+    def getItemCityByID(self, city_id):
+        citeis = []
+        with engine.connect() as conn:
+            result = conn.execute(
+                f'''SELECT name FROM citeis where uid = {city_id}'''
+            )
+            citeis = result
+        return citeis[0]
