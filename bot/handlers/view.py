@@ -1,4 +1,8 @@
 # here will be handles bot with db
+
+import telebot
+from telebot.types import *
+
 class ItemHandler:
 
     def __init__(self, engine):
@@ -64,3 +68,21 @@ class ItemHandler:
             )
             return "OK"
             conn.close()
+
+class SenderMediaData:
+    def __init__(self, chat_id, token):
+        self.chat_id = chat_id
+        self.token = token
+        self.bot = telebot.TeleBot(self.token, parse_mode=None)
+        # self.dp = Dispatcher(bot)
+
+    def sendMessage(self):
+        media = [InputMediaPhoto("https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/2019-honda-civic-sedan-1558453497.jpg")]
+        for photo_id in range(2):
+            media.append(InputMediaPhoto("https://auto1-homepage.prod.mp.auto1.cloud/static/optimized/orange-car-hp-right-mercedez.png", 'ёжик и котятки'))
+        self.bot.send_media_group(self.chat_id, media=media)
+
+
+
+
+    

@@ -1,10 +1,12 @@
 from celery import Celery
 import json
+import asyncio
+import aiohttp
 import requests
 from sqlalchemy.orm import Session
 import requests
 from celery.schedules import crontab
-from bot.handlers.view import ItemHandler
+from bot.handlers.view import ItemHandler, SenderMediaData
 from sqlalchemy import create_engine
 
 SQLALCHEMY_DATABASE_URL = f"postgresql://postgres:sc0der@localhost/somontj"
@@ -38,6 +40,5 @@ app.conf.beat_schedule = {
 @app.task
 def send_message():
     requests.get(url="http://127.0.0.1:8000/fetch/items")
-    updater = ItemHandler(engine=engine)
-    items = len(updater.getUnpublishedItems())
-    SendMessage(your_telegram_id, "HTML", str(items))
+    sender = SenderMediaData(chat_id="@elonho_dar_Tojikiston", token=bot_token)
+    sender.sendMessage()
