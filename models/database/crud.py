@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-
+import datetime
 from . import models, schemas
 
 
@@ -114,6 +114,7 @@ class ItemCrud:
             rubric_id=item['rubric'], 
             city_id=item['city'],
             status=False,
+            record_dt=datetime.datetime.now()
             )
 
         self.db.add(db_item)

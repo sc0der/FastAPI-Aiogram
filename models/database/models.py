@@ -1,6 +1,6 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime
 from sqlalchemy.orm import relationship
-
+import datetime
 from .database import Base
 
 
@@ -31,6 +31,7 @@ class Item(Base):
     raise_dt = Column(String, index=True)
     city_id = Column(String, index=True)
     status = Column(Boolean, index=True)
+    record_dt = Column(DateTime, index=True)
     rubric_id = Column(Integer)
     user_id = Column(Integer)
 
