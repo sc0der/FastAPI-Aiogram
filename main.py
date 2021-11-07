@@ -1,7 +1,7 @@
 from typing import List
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
-from fetcher import *
+from controllers.fetcher import *
 from models.database import models, schemas
 from models.database.crud import CityCrud
 from models.database.database import SessionLocal, engine
