@@ -70,19 +70,33 @@ class ItemHandler:
             conn.close()
 
 class SenderMediaData:
-    def __init__(self, chat_id, token):
+    def __init__(self, chat_id, token, service):
         self.chat_id = chat_id
         self.token = token
         self.bot = telebot.TeleBot(self.token, parse_mode=None)
-        # self.dp = Dispatcher(bot)
+        self.item_service = service
 
-    def sendMessage(self):
+    def items_list(self):
+        return self.item_service.getUnpublishedItems()
+
+
+    def getItemData(self, item):
+        user = self.item_service.getUserByItem(item.uid)
+        images = self.item_service.getImageByItems(item.user_id)
+        return item, user, images
+
+    
+    def sendMessage(self, item):
         media = [InputMediaPhoto("https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/2019-honda-civic-sedan-1558453497.jpg")]
         for photo_id in range(2):
             media.append(InputMediaPhoto("https://auto1-homepage.prod.mp.auto1.cloud/static/optimized/orange-car-hp-right-mercedez.png", 'ёжик и котятки'))
         self.bot.send_media_group(self.chat_id, media=media)
 
-
+    def run(self):
+        if len(self.items_list()) > 0:
+            for item in self.items_list():
+                # self.sendMessage(item)
+                print(self.getItemData(item))
 
 
     

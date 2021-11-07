@@ -41,4 +41,4 @@ app.conf.beat_schedule = {
 def send_message():
     requests.get(url="http://127.0.0.1:8000/fetch/items")
     sender = SenderMediaData(chat_id="@elonho_dar_Tojikiston", token=bot_token)
-    sender.sendMessage()
+    sender.run()
