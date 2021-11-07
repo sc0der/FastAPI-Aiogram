@@ -1,12 +1,4 @@
 # here will be handles bot with db
-from sqlalchemy import create_engine
-
-SQLALCHEMY_DATABASE_URL = f"postgresql://postgres:sc0der@localhost/somontj"
-engine = create_engine(
-    SQLALCHEMY_DATABASE_URL
-)
-
-
 class ItemHandler:
 
     def __init__(self, engine):
