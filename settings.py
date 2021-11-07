@@ -11,7 +11,3 @@ DB_USER = os.environ.get("DB_USER")
 
 # URLS-constants
 base_url = os.environ.get("BASE_URL")
-
-# telegram data
-TOKEN = os.environ.get("TOKEN")
-ADMIN_ID = os.environ.get("ADMIN_ID")
