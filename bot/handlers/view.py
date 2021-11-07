@@ -49,7 +49,7 @@ class ItemHandler:
             )
             users = result
             conn.close()
-        return users[0]
+        return users
 
     def getItemCityByID(self, city_id):
         citeis = []
