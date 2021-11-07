@@ -4,11 +4,11 @@ class ItemHandler:
     def __init__(self, engine):
         self.engine = engine
 
-    def getUNpublishedITems(self):
+    def getUnpublishedItems(self):
         items = []
-        with engine.connect() as conn:
+        with self.engine.connect() as conn:
             result = conn.execute(
-                '''SELECT * FROM items where status = "FALSE"'''
+                '''SELECT * FROM items where status = FALSE'''
             )
             items = [item for item in result]
             conn.close()
@@ -16,7 +16,7 @@ class ItemHandler:
 
     def getLastItems(self):
         items = []
-        with engine.connect() as conn:
+        with self.engine.connect() as conn:
             result = conn.execute(
                 '''SELECT * FROM items ORDER BY record_dt ASC LIMIT 10
                     OFFSET (SELECT COUNT(*) FROM items) - 10;'''
@@ -28,7 +28,7 @@ class ItemHandler:
     def getImageByItems(self, item_id):
         '''Returns images for current item'''
         images = []
-        with engine.connect() as conn:
+        with self.engine.connect() as conn:
             result = conn.execute(
                 f'''SELECT orig FROM images where item_id = {item_id}'''
             )
@@ -39,7 +39,7 @@ class ItemHandler:
     def getUserByItem(self, user_id):
         '''Returns author of current item'''
         users = []
-        with engine.connect() as conn:
+        with self.engine.connect() as conn:
             result = conn.execute(
                 f'''SELECT name, phone FROM users where uid = {user_id}'''
             )
@@ -49,7 +49,7 @@ class ItemHandler:
 
     def getItemCityByID(self, city_id):
         citeis = []
-        with engine.connect() as conn:
+        with self.engine.connect() as conn:
             result = conn.execute(
                 f'''SELECT name FROM citeis where uid = {city_id}'''
             )
@@ -58,7 +58,7 @@ class ItemHandler:
         return citeis[0]
 
     def updateItemStatus(self, item_id):
-        with engine.connect() as conn:
+        with self.engine.connect() as conn:
             conn.execute(
                 '''SELECT * from items where status = 'true';'''
             )

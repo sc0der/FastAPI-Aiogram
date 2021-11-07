@@ -4,7 +4,14 @@ import requests
 from sqlalchemy.orm import Session
 import requests
 from celery.schedules import crontab
-from bot.handlers.view import updateAndSend
+from bot.handlers.view import ItemHandler
+from sqlalchemy import create_engine
+
+SQLALCHEMY_DATABASE_URL = f"postgresql://postgres:sc0der@localhost/somontj"
+engine = create_engine(
+    SQLALCHEMY_DATABASE_URL
+)
+
 count = 0
 
 bot_token = "1968503343:AAHHp5u_R0eTdFnbgUKe_gGKwcentNNcH8M"
@@ -31,4 +38,6 @@ app.conf.beat_schedule = {
 @app.task
 def send_message():
     requests.get(url="http://127.0.0.1:8000/fetch/items")
-    SendMessage(your_telegram_id, "HTML", str(updateAndSend()))
+    updater = ItemHandler(engine=engine)
+    items = len(updater.getUnpublishedItems())
+    SendMessage(your_telegram_id, "HTML", str(items))
