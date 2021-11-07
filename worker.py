@@ -1,15 +1,34 @@
-import os
-import time
-
 from celery import Celery
+import json
+import requests
+from sqlalchemy.orm import Session
+import requests
+from celery.schedules import crontab
 
+count = 0
 
-celery = Celery(__name__)
-celery.conf.broker_url = os.environ.get("CELERY_BROKER_URL", "redis://localhost:6379")
-celery.conf.result_backend = os.environ.get("CELERY_RESULT_BACKEND", "redis://localhost:6379")
+bot_token = "1968503343:AAHHp5u_R0eTdFnbgUKe_gGKwcentNNcH8M"
+your_telegram_id = 563792320
 
+app = Celery('worker', broker='redis://guest@localhost//')
+app.conf.timezone = 'UTC'
+app.autodiscover_tasks()
+def SendMessage(chat_id, parse_mode):
+    global count
+    count += 1
+    keyboard = json.dumps({'inline_keyboard':[[{"text":count,"callback_data":"clicked"}]]})
+    data={'chat_id': chat_id, 'text': "None", 'parse_mode': parse_mode, 'reply_markup': keyboard}
+    return requests.post(url="https://api.telegram.org/bot"+bot_token+"/sendMessage",data=data).json()
+    
 
-@celery.task(name="create_task")
-def create_task(task_type):
-    time.sleep(int(task_type) * 10)
-    return True
+app.conf.beat_schedule = {
+    "see-you-in-ten-seconds-task": {
+        "task": "worker.send_message",
+        "schedule": 20.0
+    }
+}
+
+@app.task
+def send_message():
+    requests.get(url="http://127.0.0.1:8000/fetch/items")
+    SendMessage(your_telegram_id, "HTML")

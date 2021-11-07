@@ -82,7 +82,7 @@ class ItemCrud:
         return self.db.query(models.Item).offset(skip).limit(limit).all()
 
     def getImages(self, item_id):
-        return self.db.query(models.ItemImage).filter(models.ItemImage.item_id == item_id)
+        return self.db.query(models.ItemImage).filter(models.ItemImage.item_id == item_id)    
 
     def get_img_by_id(self, img_id):
         return self.db.query(models.ItemImage).filter(models.ItemImage.uid == img_id).first()
@@ -112,7 +112,8 @@ class ItemCrud:
             raise_dt=item['raise_dt'],
             user_id=item["user"]["id"],
             rubric_id=item['rubric'], 
-            city_id=item['city']
+            city_id=item['city'],
+            status=False,
             )
 
         self.db.add(db_item)

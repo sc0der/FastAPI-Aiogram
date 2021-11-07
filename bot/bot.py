@@ -4,7 +4,6 @@ from aiogram.utils import executor
 from  aiogram.types.input_media import *
 from keyboards.default.buttons import *
 
-
 from config import *
 
 bot = Bot(token=TOKEN)

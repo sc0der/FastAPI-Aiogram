@@ -30,6 +30,7 @@ class Item(Base):
     created_dt = Column(String, index=True)
     raise_dt = Column(String, index=True)
     city_id = Column(String, index=True)
+    status = Column(Boolean, index=True)
     rubric_id = Column(Integer)
     user_id = Column(Integer)
 
