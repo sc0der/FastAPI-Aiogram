@@ -36,6 +36,7 @@ class ItemHandler:
         return items
 
     def getImageByItems(self, item_id):
+        '''Returns images for current item'''
         images = []
         with engine.connect() as conn:
             result = conn.execute(
@@ -44,3 +45,15 @@ class ItemHandler:
             images = result
         return images
 
+
+    def getUserByItem(self, user_id):
+        '''Returns author of current item'''
+        users = []
+        with engine.connect() as conn:
+            result = conn.execute(
+                f'''SELECT name, phone FROM users where uid = {user_id}'''
+            )
+            users = result
+        return users[0]
+
+    
