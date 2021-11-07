@@ -7,23 +7,20 @@ engine = create_engine(
 )
 
 
-def updateAndSend():
-    with engine.connect() as conn:
-        result = conn.execute(
-            '''SELECT * FROM items ORDER BY record_dt ASC LIMIT 10
-                OFFSET (SELECT COUNT(*) FROM items) - 10;'''
-        )
-        for i in result:
-            print((i.title))
-
-        names = [item.title for item in result]
-        return names
-
-
 class ItemHandler:
 
     def __init__(self, engine):
         self.engine = engine
+
+    def getUNpublishedITems(self):
+        items = []
+        with engine.connect() as conn:
+            result = conn.execute(
+                '''SELECT * FROM items where status = "FALSE"'''
+            )
+            items = [item for item in result]
+            conn.close()
+        return items
 
     def getLastItems(self):
         items = []
@@ -33,6 +30,7 @@ class ItemHandler:
                     OFFSET (SELECT COUNT(*) FROM items) - 10;'''
             )
             items = result
+            conn.close()
         return items
 
     def getImageByItems(self, item_id):
@@ -43,8 +41,8 @@ class ItemHandler:
                 f'''SELECT orig FROM images where item_id = {item_id}'''
             )
             images = result
+            conn.close()
         return images
-
 
     def getUserByItem(self, user_id):
         '''Returns author of current item'''
@@ -54,6 +52,7 @@ class ItemHandler:
                 f'''SELECT name, phone FROM users where uid = {user_id}'''
             )
             users = result
+            conn.close()
         return users[0]
 
     def getItemCityByID(self, city_id):
@@ -63,4 +62,13 @@ class ItemHandler:
                 f'''SELECT name FROM citeis where uid = {city_id}'''
             )
             citeis = result
+            conn.close()
         return citeis[0]
+
+    def updateItemStatus(self, item_id):
+        with engine.connect() as conn:
+            conn.execute(
+                '''SELECT * from items where status = 'true';'''
+            )
+            return "OK"
+            conn.close()
