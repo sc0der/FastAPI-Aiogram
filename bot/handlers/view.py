@@ -87,15 +87,16 @@ class SenderMediaData:
 
     
     def sendMessage(self, item):
-        media = [InputMediaPhoto("https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/2019-honda-civic-sedan-1558453497.jpg")]
-        for photo_id in range(2):
-            media.append(InputMediaPhoto("https://auto1-homepage.prod.mp.auto1.cloud/static/optimized/orange-car-hp-right-mercedez.png", 'ёжик и котятки'))
-        self.bot.send_media_group(self.chat_id, media=media)
+        self.bot.send_message(self.chat_id, item['description'])
+        # media = [InputMediaPhoto("https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/2019-honda-civic-sedan-1558453497.jpg")]
+        # for photo_id in range(2):
+        #     media.append(InputMediaPhoto("https://auto1-homepage.prod.mp.auto1.cloud/static/optimized/orange-car-hp-right-mercedez.png", 'ёжик и котятки'))
+        # self.bot.send_media_group(self.chat_id, media=media)
 
     def run(self):
         if len(self.items_list()) > 0:
             for item in self.items_list():
-                # self.sendMessage(item)
+                self.sendMessage(item)
                 print(self.getItemData(item))
 
 
