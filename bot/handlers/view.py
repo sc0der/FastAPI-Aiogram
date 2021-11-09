@@ -2,6 +2,7 @@
 
 import telebot
 from telebot.types import *
+import time
 
 class ItemHandler:
 
@@ -34,9 +35,10 @@ class ItemHandler:
         images = []
         with self.engine.connect() as conn:
             result = conn.execute(
-                f'''SELECT orig FROM images where item_id = {item_id}'''
+                f'''SELECT * FROM images where item_id = {item_id}'''
             )
-            images = result
+            for item in result:
+                images.append(item['orig'])
             conn.close()
         return images
 
@@ -65,10 +67,11 @@ class ItemHandler:
     def updateItemStatus(self, item_id):
         with self.engine.connect() as conn:
             conn.execute(
-                '''SELECT * from items where status = 'true';'''
+                f'''UPDATE items SET status = "true" WHERE uid = {str(item_id)};'''
             )
             return "OK"
             conn.close()
+
 
 class SenderMediaData:
     def __init__(self, chat_id, token, service):
@@ -80,33 +83,31 @@ class SenderMediaData:
     def items_list(self):
         return self.item_service.getUnpublishedItems()
 
-
     def getItemData(self, item):
         user = self.item_service.getUserByItem(item.uid)
         images = self.item_service.getImageByItems(item.user_id)
         return item, user, images
 
-    
     def sendMessage(self, item):
         city = self.item_service.getItemCityByID(item['city_id'])
+        images = self.item_service.getImageByItems(item['uid'])
         date = item['raise_dt'].split(',')
+        media = []
         message = f"""🔎 {item['title']}  🔍
         {item['description']} \n
-        *Цена: * {item['price']} | *Город: * {city[0]} \n
-        *Торг: * {item['price_description']} | *Дата: * {date[1]} \n
-        *Имя: * {item['user_name']} | *Телефон: * {item['user_phone']} \n
-        """;
-        self.bot.send_message(self.chat_id, message, parse_mode='Markdown')
-        # media = [InputMediaPhoto("https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/2019-honda-civic-sedan-1558453497.jpg")]
-        # for photo_id in range(2):
-        #     media.append(InputMediaPhoto("https://auto1-homepage.prod.mp.auto1.cloud/static/optimized/orange-car-hp-right-mercedez.png", 'ёжик и котятки'))
-        # self.bot.send_media_group(self.chat_id, media=media)
+        💰*Цена: * {item['price']} \n
+        🌐*Город: * {city[0]} \n
+        💎*Торг: * {item['price_description']} \n
+        📆*Дата: * {date[1]} \n
+        👤*Имя: * {item['user_name']} \n 
+        ☎️*Телефон: * {item['user_phone']}"""
+        self.item_service.updateItemStatus(item['uid'])
+        for item in range(len(images)):
+            media.append(InputMediaPhoto(images[item], parse_mode='Markdown', caption = message if item == 0 else ''))            
+        self.bot.send_media_group(self.chat_id, media=media)
 
     def run(self):
         if len(self.items_list()) > 0:
             for item in self.items_list():
+                time.sleep(0.5)
                 self.sendMessage(item)
-                # print(self.getItemData(item))
-
-
-    
