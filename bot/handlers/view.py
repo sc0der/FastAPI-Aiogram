@@ -89,18 +89,17 @@ class SenderMediaData:
     
     def sendMessage(self, item):
         city = self.item_service.getItemCityByID(item['city_id'])
-        
+        UTC_datetime_timestamp = float(item['raise_dt'].strftime("%s"))
+        local_datetime_converted = datetime.datetime.fromtimestamp(UTC_datetime_timestamp)
         message = f"""🔎 {item['title']}  🔍
         {item['description']} \n
-        *Цена: * {item['price']} \n
-        *Торг: * {item['price_description']} \n\n
-        *Категория: * {item['rubric_id']} \n
-        *Город: * {city[0]} \n
-        *Дата: * {item['raise_dt']} \n
+        *Цена: * {item['price']} | *Город: * {city[0]} \n
+        *Торг: * {item['price_description']} | *Категория: * {item['rubric_id']} \n
+        *Дата: * {local_datetime_converted} \n
         *Имя: * {item['user_name']} \n
-        *Телефон: * {item['user_phone']} \n
+        i*Телефон: *i {item['user_phone']} \n
         """;
-        self.bot.send_message(self.chat_id, message )
+        self.bot.send_message(self.chat_id, message, parse_mode='Markdown')
         # media = [InputMediaPhoto("https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/2019-honda-civic-sedan-1558453497.jpg")]
         # for photo_id in range(2):
         #     media.append(InputMediaPhoto("https://auto1-homepage.prod.mp.auto1.cloud/static/optimized/orange-car-hp-right-mercedez.png", 'ёжик и котятки'))
