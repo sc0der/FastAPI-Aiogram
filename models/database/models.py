@@ -11,12 +11,14 @@ class User(Base):
     name = Column(String, index=True)
     phone = Column(String, unique=True, index=True)
 
+
 class Rubric(Base):
     __tablename__ = "rubrics"
     id = Column(Integer, primary_key=True, index=True)
-    uid= Column(Integer)
-    name= Column(String)
-    slug= Column(String, index=True)
+    uid = Column(Integer)
+    name = Column(String)
+    slug = Column(String, index=True)
+
 
 class Item(Base):
     __tablename__ = "items"
@@ -32,8 +34,12 @@ class Item(Base):
     city_id = Column(String, index=True)
     status = Column(Boolean, index=True)
     record_dt = Column(DateTime, index=True)
+    user_name = Column(String)
+    user_phone = Column(String)
+    templated_title = column(String)
     rubric_id = Column(Integer)
     user_id = Column(Integer)
+
 
 class City(Base):
     __tablename__ = "cities"
@@ -41,6 +47,7 @@ class City(Base):
     uid = Column(Integer, unique=True)
     name = Column(String)
     slug = Column(String)
+
 
 class ItemImage(Base):
     __tablename__ = "images"
