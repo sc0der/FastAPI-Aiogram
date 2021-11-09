@@ -57,7 +57,8 @@ class ItemHandler:
             result = conn.execute(
                 f'''SELECT name FROM cities where uid = {str(city_id)}'''
             )
-            cities = result
+            for item in result:
+                cities.append(item['name'])
             conn.close()
         return cities
 
@@ -94,7 +95,7 @@ class SenderMediaData:
         *Цена: * {item['price']} \n
         *Торг: * {item['price_description']} \n\n
         *Категория: * {item['rubric_id']} \n
-        *Город: * {city["name"]} \n
+        *Город: * {city[0]} \n
         *Дата: * {item['raise_dt']} \n
         *Имя: * {item['user_name']} \n
         *Телефон: * {item['user_phone']} \n
