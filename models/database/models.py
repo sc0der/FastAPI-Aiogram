@@ -36,7 +36,8 @@ class Item(Base):
     record_dt = Column(DateTime, index=True)
     user_name = Column(String)
     user_phone = Column(String)
-    templated_title = column(String)
+    templated_title = Column(String)
+    rubric_name = Column(String)
     rubric_id = Column(Integer)
     user_id = Column(Integer)
 
