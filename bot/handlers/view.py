@@ -94,7 +94,7 @@ class SenderMediaData:
         *Цена: * {item['price']} \n
         *Торг: * {item['price_description']} \n\n
         *Категория: * {item['rubric_id']} \n
-        *Город: * {city} \n
+        *Город: * {type(city)} \n
         *Дата: * {item['raise_dt']} \n
         *Имя: * {item['user_name']} \n
         *Телефон: * {item['user_phone']} \n
