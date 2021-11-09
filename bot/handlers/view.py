@@ -87,7 +87,18 @@ class SenderMediaData:
 
     
     def sendMessage(self, item):
-        self.bot.send_message(self.chat_id, item['description'])
+        
+        message = f"""🔎 {item['title']}  🔍
+        {item['description']} \n
+        *Цена: * {item['price']} \n
+        *Торг: * {item['price_description']} \n\n
+        *Категория: * {item['rubric_id']} \n
+        *Город: * {item['city_id']} \n
+        *Дата: * {item['raise_dt']} \n
+        *Имя: * {item['user_id']} \n
+        *Телефон: * {item['price']} \n
+        """;
+        self.bot.send_message(self.chat_id, message )
         # media = [InputMediaPhoto("https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/2019-honda-civic-sedan-1558453497.jpg")]
         # for photo_id in range(2):
         #     media.append(InputMediaPhoto("https://auto1-homepage.prod.mp.auto1.cloud/static/optimized/orange-car-hp-right-mercedez.png", 'ёжик и котятки'))
@@ -97,7 +108,7 @@ class SenderMediaData:
         if len(self.items_list()) > 0:
             for item in self.items_list():
                 self.sendMessage(item)
-                print(self.getItemData(item))
+                # print(self.getItemData(item))
 
 
     
