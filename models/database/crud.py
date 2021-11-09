@@ -101,6 +101,9 @@ class ItemCrud:
         if self.get_by_Id(item['id']):
             return "item is alredy added"
 
+        rubric = RubricaCrud(self.db)
+        rb_name = rubric.get_by_Id(item['rubric']).first()
+        
         db_item = models.Item(
             slug=item['slug'], 
             uid=item['id'], 
@@ -111,8 +114,12 @@ class ItemCrud:
             created_dt=item['created_dt'],
             raise_dt=item['raise_dt'],
             user_id=item["user"]["id"],
+            user_name=item['user_name'],
+            user_phone=item['user_phone'],
             rubric_id=item['rubric'], 
+            rubric_name=rb_name.name,
             city_id=item['city'],
+            templated_title =item['templated_title'],
             status=False,
             record_dt=datetime.datetime.now()
             )
