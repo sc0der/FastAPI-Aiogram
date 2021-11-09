@@ -89,15 +89,12 @@ class SenderMediaData:
     
     def sendMessage(self, item):
         city = self.item_service.getItemCityByID(item['city_id'])
-        UTC_datetime_timestamp = float(item['raise_dt'].strftime("%s"))
-        local_datetime_converted = datetime.datetime.fromtimestamp(UTC_datetime_timestamp)
+        date = item['raise_dt'].split(',')
         message = f"""🔎 {item['title']}  🔍
         {item['description']} \n
         *Цена: * {item['price']} | *Город: * {city[0]} \n
-        *Торг: * {item['price_description']} | *Категория: * {item['rubric_id']} \n
-        *Дата: * {local_datetime_converted} \n
-        *Имя: * {item['user_name']} \n
-        i*Телефон: *i {item['user_phone']} \n
+        *Торг: * {item['price_description']} | *Дата: * {date[1]} \n
+        *Имя: * {item['user_name']} | *Телефон: * {item['user_phone']} \n
         """;
         self.bot.send_message(self.chat_id, message, parse_mode='Markdown')
         # media = [InputMediaPhoto("https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/2019-honda-civic-sedan-1558453497.jpg")]
