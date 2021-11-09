@@ -45,21 +45,21 @@ class ItemHandler:
         users = []
         with self.engine.connect() as conn:
             result = conn.execute(
-                f'''SELECT name, phone FROM users where uid = {user_id}'''
+                f'''SELECT name, phone FROM users where uid = {str(user_id)}'''
             )
             users = result
             conn.close()
         return users
 
     def getItemCityByID(self, city_id):
-        citeis = []
+        cities = []
         with self.engine.connect() as conn:
             result = conn.execute(
-                f'''SELECT name FROM citeis where uid = {city_id}'''
+                f'''SELECT name FROM cities where uid = {str(city_id)}'''
             )
-            citeis = result
+            cities = result
             conn.close()
-        return citeis[0]
+        return cities
 
     def updateItemStatus(self, item_id):
         with self.engine.connect() as conn:
@@ -87,16 +87,17 @@ class SenderMediaData:
 
     
     def sendMessage(self, item):
+        city = self.item_service.getItemCityByID(item['city_id'])
         
         message = f"""🔎 {item['title']}  🔍
         {item['description']} \n
         *Цена: * {item['price']} \n
         *Торг: * {item['price_description']} \n\n
         *Категория: * {item['rubric_id']} \n
-        *Город: * {item['city_id']} \n
+        *Город: * {city} \n
         *Дата: * {item['raise_dt']} \n
-        *Имя: * {item['user_id']} \n
-        *Телефон: * {item['price']} \n
+        *Имя: * {item['user_name']} \n
+        *Телефон: * {item['user_phone']} \n
         """;
         self.bot.send_message(self.chat_id, message )
         # media = [InputMediaPhoto("https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/2019-honda-civic-sedan-1558453497.jpg")]
