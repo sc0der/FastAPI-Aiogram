@@ -67,7 +67,7 @@ class ItemHandler:
     def updateItemStatus(self, item_id):
         with self.engine.connect() as conn:
             conn.execute(
-                f'''UPDATE items SET status = "true" WHERE uid = {str(item_id)};'''
+                f'''UPDATE items SET status = 'true' WHERE uid = {str(item_id)};'''
             )
             return "OK"
             conn.close()
