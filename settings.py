@@ -9,3 +9,7 @@ DB_USER = os.environ.get("DB_USER")
 
 # URLS-constants
 base_url = os.environ.get("BASE_URL")
+
+
+# bot datas
+ADMIN_ID = os.environ.get("ADMIN_ID")
