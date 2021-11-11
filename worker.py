@@ -37,7 +37,7 @@ def SendMessage(chat_id, parse_mode, msg):
 app.conf.beat_schedule = {
     "see-you-in-ten-seconds-task": {
         "task": "worker.send_message",
-        "schedule": 60.0
+        "schedule": 120.0
     }
 }
 
