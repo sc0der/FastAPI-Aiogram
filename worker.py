@@ -5,6 +5,7 @@ import aiohttp
 import requests
 from sqlalchemy.orm import Session
 import requests
+from settings import *
 from celery.schedules import crontab
 from bot.handlers.view import ItemHandler, SenderMediaData
 from sqlalchemy import create_engine
@@ -13,9 +14,6 @@ SQLALCHEMY_DATABASE_URL = f"postgresql://postgres:sc0der@localhost/somontj"
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL
 )
-
-bot_token = "1968503343:AAHHp5u_R0eTdFnbgUKe_gGKwcentNNcH8M"
-your_telegram_id = 563792320
 
 app = Celery('worker', broker='redis://guest@localhost//')
 app.conf.timezone = 'UTC'
@@ -33,5 +31,5 @@ app.conf.beat_schedule = {
 def send_message():
     requests.get(url="http://127.0.0.1:8000/fetch/items")
     service = ItemHandler(engine)
-    sender = SenderMediaData(chat_id="@elonho_dar_Tojikiston", token=bot_token, service=service)
+    sender = SenderMediaData(chat_id="@elonho_dar_Tojikiston", token=TOKEN, service=service)
     sender.run()
