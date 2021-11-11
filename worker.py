@@ -31,5 +31,5 @@ app.conf.beat_schedule = {
 def send_message():
     requests.get(url="http://127.0.0.1:8000/fetch/items")
     service = ItemHandler(engine)
-    sender = SenderMediaData(chat_id="@elonho_dar_Tojikiston", token=TOKEN, service=service)
+    sender = SenderMediaData(chat_id=CHANNEL_ID, token=TOKEN, service=service)
     sender.run()

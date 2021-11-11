@@ -14,3 +14,4 @@ base_url = os.environ.get("BASE_URL")
 # bot datas
 ADMIN_ID = os.environ.get("ADMIN_ID")
 TOKEN = os.environ.get("TOKEN")
+CHANNEL_ID = os.environ.get("CHANNEL_ID")
