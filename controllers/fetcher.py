@@ -46,7 +46,6 @@ class FetchRubrics:
         return [base_url+"rubrics/"+str(rubric.uid) for rubric in self.rubricCrud.get_list()]
 
     async def fetch(self, url):
-        print(url)
         async with self.session.get(url) as response:
             if response.status != 200:
                 response.raise_for_status()
