@@ -2,8 +2,6 @@ from dotenv import load_dotenv
 import os
 
 load_dotenv()
-
-
 # DB-constants
 DB_NAME = os.environ.get("DB_NAME")
 DB_PASS = os.environ.get("DB_PASS")
