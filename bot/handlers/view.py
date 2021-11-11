@@ -109,5 +109,5 @@ class SenderMediaData:
     def run(self):
         if len(self.items_list()) > 0:
             for item in self.items_list():
-                time.sleep(0.5)
+                time.sleep(1)
                 self.sendMessage(item)
