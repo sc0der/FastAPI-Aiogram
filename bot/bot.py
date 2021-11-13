@@ -4,14 +4,17 @@ from aiogram.types.input_media import InputMediaPhoto
 from keyboards.default.buttons import *
 from config import *
 from consts import dp, bot
+from messager import *
+
 
 @dp.message_handler(commands=['start'])
 async def process_start_command(message: Message):
     await message.reply("Привет!\nНапиши мне что-нибудь!")
 
+
 @dp.message_handler(commands=['help'])
 async def process_help_command(message: Message):
-    await message.reply("Напиши мне что-нибудь, и я отпрпавлю этот текст тебе в ответ!", reply_markup=greet_kb)
+    await message.reply(get_msg("help"), reply_markup=greet_kb)
 
 
 @dp.message_handler()
