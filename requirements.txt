@@ -1,0 +1,10 @@
+fastapi
+celery
+aiogram
+pyTelegramBotAPI
+asyncio
+aiohttp
+sqlalchemy
+python-dotenv
+redis==3.4.1
+psycopg2-binary
