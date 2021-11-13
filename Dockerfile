@@ -14,3 +14,5 @@ RUN pip install -r requirements.txt
 
 # copy project
 COPY . .
+
+CMD ['python3', 'main.py']
