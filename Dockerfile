@@ -1,7 +1,6 @@
 FROM python:3.9.5-slim-buster
 
 # set work directory
-WORKDIR /app
 
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -15,4 +14,9 @@ RUN pip install -r requirements.txt
 # copy project
 COPY . .
 
-CMD 'python3' 'bot/bot.py'
+# fastapi
+WORKDIR /app
+
+
+
+# CMD 'python3' 'bot/bot.py'
