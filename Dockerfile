@@ -15,4 +15,4 @@ RUN pip install -r requirements.txt
 # copy project
 COPY . .
 
-CMD 'python3' 'bot/main.py'
+CMD 'python3' 'bot/bot.py'
