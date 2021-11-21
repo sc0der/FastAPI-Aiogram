@@ -23,6 +23,15 @@ def get_db():
 def index(db: Session = Depends(get_db)):
     return {"msg": "bingo"}
 
+@app.get("/")
+def index(db: Session = Depends(get_db)):
+    return {"msg": "bingo"}
+
+@app.post("/auth/login")
+def index(db: Session = Depends(get_db)):
+    return {"action": "login"}
+
+
 @app.get("/cities")
 def index(db: Session = Depends(get_db)):
     cityDB = CityCrud(db)
