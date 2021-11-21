@@ -32,6 +32,10 @@ def index(db: Session = Depends(get_db)):
     return {"action": "login"}
 
 
+@app.post("/auth/register")
+def index(db: Session = Depends(get_db)):
+    return {"action": "register"}
+
 @app.get("/cities")
 def index(db: Session = Depends(get_db)):
     cityDB = CityCrud(db)
